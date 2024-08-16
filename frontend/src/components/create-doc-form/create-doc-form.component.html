@@ -1,0 +1,18 @@
+<form [formGroup]="documentForm" (ngSubmit)="onSubmit()">
+    <label for="name">Nome do documento</label>
+    <input id="name" formControlName="name"/>
+    <label for="url">URL do PDF</label>
+    <input id="url" formControlName="url"/>
+    <div formArrayName="signers">
+        <div *ngFor="let signer of signers.controls; let i = index" [formGroupName]="i">
+            <label for="signerName">Nome do signatário</label>
+            <input id="signerName" formControlName="name"/>
+            <label for="signerEmail">Email do signatário</label>
+            <input id="signerEmail" formControlName="email"/>
+            <button type="button" (click)="removeSigner(i)">Remover signatário</button>
+        </div>
+    </div>
+    <button type="button" (click)="autoFill()">Auto Preencher</button>
+    <button type="button" (click)="addSigner()">Adicionar Signatário</button>
+    <button type="submit">Enviar</button>
+</form>

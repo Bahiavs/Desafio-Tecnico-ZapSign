@@ -1,17 +1,12 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import {CreateDocFormComponent} from "../components/create-doc-form/create-doc-form.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
-  template: `
-    <h1>Welcome to {{title}}!</h1>
-
-    <router-outlet />
-  `,
-  styles: [],
+  imports: [RouterOutlet, CreateDocFormComponent],
+  template: `<create-doc-form/>`,
 })
 export class AppComponent {
-  title = 'documentapp';
 }
