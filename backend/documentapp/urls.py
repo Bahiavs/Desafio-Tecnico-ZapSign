@@ -3,4 +3,5 @@ from . import views
 
 urlpatterns = [
     path("create", views.create_document, name="create_document"),
+    path("read", views.get_documents, name="get_documents"),
 ]

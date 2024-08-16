@@ -9,11 +9,7 @@ from .models import Document, Signer, Company
 def create_document(request):
     request_data = json.loads(request.body)
     company = Company.objects.first()
-    document = Document.objects.create(
-        companyID=company,
-        name=request_data['name'],
-        status='initial'
-    )
+    document = Document.objects.create(companyID=company, name=request_data['name'], status='initial')
     signers_data = request_data['signers']
     signers = []
     for signer in signers_data:
@@ -45,3 +41,20 @@ def create_document(request):
             signer.save()
         return JsonResponse({'status': 'Document created successfully'})
     return JsonResponse({'status': 'Error creating document', 'error': response.text}, status=400)
+
+
+@csrf_exempt
+def get_documents(request):
+    documents = Document.objects.all()
+    documents_list = []
+    for document in documents:
+        signers = Signer.objects.filter(documentID=document)
+        signers_list = list(signers.values('name', 'email', 'status'))
+        documents_list.append({
+            'documentID': document.id,
+            'name': document.name,
+            'status': document.status,
+            'createdAt': document.created_at,
+            'signers': signers_list
+        })
+    return JsonResponse(documents_list, safe=False) # `safe=False`: permite retornar qualquer tipo de objeto serializável em JSON, como listas, além de dicionários
