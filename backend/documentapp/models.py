@@ -16,7 +16,7 @@ class Company(models.Model):
 
 class Document(models.Model):
     id = models.BigAutoField(primary_key=True)
-    openID = models.IntegerField()
+    openID = models.IntegerField(default=0)
     token = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
     status = models.CharField(max_length=50)
