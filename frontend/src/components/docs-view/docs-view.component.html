@@ -1,1 +1,4 @@
-<pre *ngFor="let doc of docs">{{doc | json}}</pre>
+<div *ngFor="let doc of docs">
+    <pre>{{doc | json}}</pre>
+    <button (click)="_deleteDocService.execute(doc['documentID'])">🗑️ Deletar Documento</button>
+</div>

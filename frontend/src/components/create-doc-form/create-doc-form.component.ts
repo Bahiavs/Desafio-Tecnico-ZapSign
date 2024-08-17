@@ -2,7 +2,6 @@ import {Component, inject} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {NgForOf} from "@angular/common";
 import {CreateDocService} from "../../services/create-doc.service";
-import {GetDocsService} from "../../services/get-docs.service";
 
 @Component({
     selector: 'create-doc-form',
@@ -12,7 +11,6 @@ import {GetDocsService} from "../../services/get-docs.service";
 })
 export class CreateDocFormComponent {
     private readonly _createDocService = inject(CreateDocService);
-    private readonly _getDocsService = inject(GetDocsService);
     private readonly _fb = inject(FormBuilder);
     readonly signers: FormArray = this._fb.array([]);
     readonly documentForm: FormGroup = this._fb.group({
@@ -38,17 +36,7 @@ export class CreateDocFormComponent {
     }
 
     onSubmit() {
-        if (this.documentForm.valid) {
-            const unsubscribe = this._createDocService.execute(this.documentForm.value).subscribe({
-                next: (response) => {
-                    alert('Document created successfully')
-                    this._getDocsService.execute() // todo
-                },
-                error: (error) => {
-                    alert('Error creating document')
-                }
-            });
-        }
+        if (this.documentForm.valid) this._createDocService.execute(this.documentForm.value)
     }
 
     autoFill() {

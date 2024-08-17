@@ -3,17 +3,17 @@ import {HttpClient} from '@angular/common/http';
 import {GetDocsService} from "./get-docs.service";
 
 @Injectable({providedIn: 'root'})
-export class CreateDocService {
-    private readonly _apiUrl = 'http://localhost:8000/documentapp/create';
+export class DeleteDocService {
+    private readonly _apiUrl = 'http://localhost:8000/documentapp/delete/';
     private readonly _http = inject(HttpClient);
     private readonly _getDocsService = inject(GetDocsService);
 
-    execute(documentData: any) {
-        const subscription = this._http.post<any>(this._apiUrl, JSON.stringify(documentData)).subscribe({
+    execute(docID: any) {
+        const subscriber = this._http.delete<any>(`${this._apiUrl}${docID}`).subscribe({
             complete: () => {
-                this._getDocsService.execute()
-                subscription.unsubscribe()
+                this._getDocsService.execute();
+                subscriber.unsubscribe();
             }
-        })
+        });
     }
 }
