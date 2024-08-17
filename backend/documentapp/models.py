@@ -20,6 +20,7 @@ class Document(models.Model):
     token = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
     status = models.CharField(max_length=50)
+    created_by = models.CharField(max_length=255)
     created_at = models.DateTimeField(default=timezone.now)
     last_updated_at = models.DateTimeField(default=timezone.now)
     companyID = models.ForeignKey('Company', on_delete=models.CASCADE, null=True, blank=True)

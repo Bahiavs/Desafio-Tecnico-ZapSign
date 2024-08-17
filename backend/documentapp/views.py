@@ -33,6 +33,7 @@ def create_document(request):
         document.externalID = document_data['external_id']
         document.token = document_data['token']
         document.status = document_data['status']
+        document.created_by = document_data['created_by']['email']
         document.save()
         for signer, signer_data in zip(signers, document_data['signers']):
             signer.externalID = signer_data['external_id']
@@ -55,6 +56,7 @@ def get_documents(request):
             'name': document.name,
             'status': document.status,
             'createdAt': document.created_at,
+            'createdBy': document.created_by,
             'signers': signers_list
         })
     # `safe=False`: permite retornar qualquer tipo de objeto serializável em JSON, como listas, além de dicionários
