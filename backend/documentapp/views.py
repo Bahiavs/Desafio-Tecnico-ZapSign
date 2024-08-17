@@ -1,5 +1,5 @@
 import json
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseNotFound
 from django.views.decorators.csrf import csrf_exempt
 import requests
 from .models import Document, Signer, Company
@@ -57,4 +57,15 @@ def get_documents(request):
             'createdAt': document.created_at,
             'signers': signers_list
         })
-    return JsonResponse(documents_list, safe=False) # `safe=False`: permite retornar qualquer tipo de objeto serializável em JSON, como listas, além de dicionários
+    # `safe=False`: permite retornar qualquer tipo de objeto serializável em JSON, como listas, além de dicionários
+    return JsonResponse(documents_list, safe=False)
+
+
+@csrf_exempt
+def delete_document(request, document_id):
+    try:
+        document = Document.objects.get(id=document_id)
+        document.delete()
+        return JsonResponse({'status': 'Document deleted successfully'})
+    except Document.DoesNotExist:
+        return HttpResponseNotFound({'status': 'Document not found'})
