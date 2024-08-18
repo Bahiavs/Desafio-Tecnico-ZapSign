@@ -1,27 +1,23 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {GetDocsService} from "../../services/get-docs.service";
-import {DatePipe, JsonPipe, NgForOf} from "@angular/common";
+import {AsyncPipe, DatePipe, JsonPipe, NgForOf} from "@angular/common";
 import {DeleteDocService} from "../../services/delete-doc.service";
+import {UpdateDocService} from "../../services/update-doc.service";
 
 @Component({
     selector: 'docs-view',
     standalone: true,
-    imports: [
-        NgForOf,
-        DatePipe,
-        JsonPipe
-    ],
+    imports: [NgForOf, JsonPipe, AsyncPipe],
     templateUrl: './docs-view.component.html',
     styleUrl: 'docs-view.component.scss'
 })
-export class DocsViewComponent implements OnInit {
+export class DocsViewComponent {
     private readonly _getDocsService = inject(GetDocsService);
-    readonly _deleteDocService = inject(DeleteDocService);
-    docs: any[] = [];
+    protected readonly deleteDocService = inject(DeleteDocService);
+    protected readonly updateDocService = inject(UpdateDocService);
+    protected readonly docs$ = this._getDocsService.execute();
 
-    ngOnInit() {
-        this._getDocsService.execute().subscribe({
-            next: docs => this.docs = docs
-        })
+    update() {
+        this.updateDocService.execute(null, null)
     }
 }
