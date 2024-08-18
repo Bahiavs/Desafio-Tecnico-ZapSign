@@ -1,5 +1,5 @@
 import json
-from django.http import JsonResponse, HttpResponseNotFound
+from django.http import JsonResponse, HttpResponseNotFound, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
 import requests
 from .models import Document, Signer, Company
@@ -71,3 +71,19 @@ def delete_document(request, document_id):
         return JsonResponse({'status': 'Document deleted successfully'})
     except Document.DoesNotExist:
         return HttpResponseNotFound({'status': 'Document not found'})
+
+
+@csrf_exempt
+def update_signer(request, signer_id):
+    if request.method != 'PATCH': return HttpResponseBadRequest({'status': 'Invalid request method'})
+    try:
+        signer = Signer.objects.get(id=signer_id)
+        data = json.loads(request.body)
+        signer.name = data.get('name', signer.name)
+        signer.email = data.get('email', signer.email)
+        signer.save()
+        return JsonResponse({'status': 'Signer updated successfully'})
+    except Signer.DoesNotExist:
+        return HttpResponseNotFound({'status': 'Signer not found'})
+    except json.JSONDecodeError:
+        return HttpResponseBadRequest({'status': 'Invalid JSON'})
