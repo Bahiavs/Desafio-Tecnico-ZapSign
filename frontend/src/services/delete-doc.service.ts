@@ -9,6 +9,7 @@ export class DeleteDocService {
     private readonly _getDocsService = inject(GetDocsService);
 
     execute(docID: any) {
+        if (!confirm('Tem certeza que deseja deletar o documento?')) return;
         const subscriber = this._http.delete<any>(`${this._apiUrl}${docID}`).subscribe({
             complete: () => {
                 this._getDocsService.execute();
