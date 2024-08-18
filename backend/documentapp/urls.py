@@ -6,4 +6,5 @@ urlpatterns = [
     path("read", views.get_documents, name="get_documents"),
     path('delete/<int:document_id>', views.delete_document, name='delete_document'),
     path('update-signer/<int:signer_id>', views.update_signer, name='update_signer'),
+    path('update-document/<int:document_id>', views.update_document, name='update_document'),
 ]

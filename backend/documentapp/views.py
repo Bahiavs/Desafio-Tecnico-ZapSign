@@ -87,3 +87,18 @@ def update_signer(request, signer_id):
         return HttpResponseNotFound({'status': 'Signer not found'})
     except json.JSONDecodeError:
         return HttpResponseBadRequest({'status': 'Invalid JSON'})
+
+
+@csrf_exempt
+def update_document(request, document_id):
+    if request.method != 'PATCH': return HttpResponseBadRequest({'status': 'Invalid request method'})
+    try:
+        document = Document.objects.get(id=document_id)
+        data = json.loads(request.body)
+        document.name = data.get('name', document.name)
+        document.save()
+        return JsonResponse({'status': 'Document updated successfully'})
+    except Document.DoesNotExist:
+        return HttpResponseNotFound({'status': 'Document not found'})
+    except json.JSONDecodeError:
+        return HttpResponseBadRequest({'status': 'Invalid JSON'})
