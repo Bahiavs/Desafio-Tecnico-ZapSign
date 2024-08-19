@@ -1,5 +1,5 @@
 <div *ngFor="let doc of (docs$ | async)">
     <pre>{{ doc | json }}</pre>
     <button (click)="deleteDocService.execute(doc['documentID'])">🗑️ Deletar</button>
-    <button (click)="update()">✏️ Editar</button>
+    <button (click)="update({'documentID': doc['documentID'], 'name': doc['name']})">✏️ Editar</button>
 </div>

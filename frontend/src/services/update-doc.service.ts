@@ -9,13 +9,13 @@ export class UpdateDocService {
     private readonly _getDocsService = inject(GetDocsService);
 
     execute(documentID: any, documentData: any) {
-        const url = `${this._apiUrl}${documentID}`;
+        const url = `${this._apiUrl}/${documentID}`;
         const body = JSON.stringify(documentData);
-        /*const subscription = this._http.patch<any>(url, body).subscribe({
+        const subscription = this._http.patch<any>(url, body).subscribe({
             complete: () => {
                 this._getDocsService.execute()
                 subscription.unsubscribe()
             }
-        })*/
+        })
     }
 }
