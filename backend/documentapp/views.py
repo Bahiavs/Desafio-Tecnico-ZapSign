@@ -50,7 +50,7 @@ def get_documents(request):
     documents_list = []
     for document in documents:
         signers = Signer.objects.filter(documentID=document)
-        signers_list = list(signers.values('name', 'email', 'status'))
+        signers_list = list(signers.values('name', 'email', 'status', 'id'))
         documents_list.append({
             'documentID': document.id,
             'name': document.name,
