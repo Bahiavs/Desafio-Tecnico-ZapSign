@@ -4,6 +4,7 @@ import {AsyncPipe, JsonPipe, NgForOf} from "@angular/common";
 import {DeleteDocService} from "../../services/delete-doc.service";
 import {Dialog, DialogModule} from "@angular/cdk/dialog";
 import {EditDocComponent} from "../edit-doc/edit-doc.component";
+import {EditSignerComponent} from "../edit-signer/edit-signer.component";
 
 @Component({
     selector: 'docs-view',
@@ -18,7 +19,11 @@ export class DocsViewComponent {
     protected readonly docs$ = this._getDocsService.execute();
     private readonly _dialog = inject(Dialog);
 
-    update(doc: any) {
+    editDoc(doc: any) {
         this._dialog.open(EditDocComponent, {data: doc});
+    }
+
+    editSigner(signer: any) {
+        this._dialog.open(EditSignerComponent, {data: signer});
     }
 }
