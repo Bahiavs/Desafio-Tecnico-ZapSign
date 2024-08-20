@@ -1,14 +1,28 @@
 import json
 from django.test import TestCase
+
+from .models import Company
 from .usecases.create_document import CreateDocument
 
 
 class CreateDocumentTestCase(TestCase):
 
     def setUp(self):
+        Company.objects.create(name='Company Name', api_token='b55b295b-20ee-4757-a71a-7185ced23ee599b274bc-b94c-42f5-aa1d-864af1605a57')
         self.create_document = CreateDocument()
 
-# Create your tests here.
+    def test_create_doc(self):
+        input_data = json.dumps({
+            "name": "Documento A",
+            "url": "https://zapsign.s3.amazonaws.com/2022/1/pdf/63d19807-cbfa-4b51-8571-215ad0f4eb98/ca42e7be-c932-482c-b70b-92ad7aea04be.pdf",
+            "signers": [
+                {"name": "Signatario A", "email": "signatarioA@email.com"},
+                {"name": "Signatario B", "email": "signatarioB@email.com"}
+            ]
+        })
+        response = self.create_document.execute(input_data)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('Document created successfully', response.content.decode())
 
     def test_doc_missing_field_name(self):
         input_data = json.dumps({
