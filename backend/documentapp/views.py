@@ -2,10 +2,13 @@ import json
 from django.http import JsonResponse, HttpResponseNotFound, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
 import requests
+from django.views.decorators.http import require_http_methods
+
 from .models import Document, Signer, Company
 
 
 @csrf_exempt
+@require_http_methods(["POST"])
 def create_document(request):
     request_data = json.loads(request.body)
     company = Company.objects.first()
@@ -45,6 +48,7 @@ def create_document(request):
 
 
 @csrf_exempt
+@require_http_methods(["GET"])
 def get_documents(request):
     documents = Document.objects.all()
     documents_list = []
@@ -64,6 +68,7 @@ def get_documents(request):
 
 
 @csrf_exempt
+@require_http_methods(["DELETE"])
 def delete_document(request, document_id):
     try:
         document = Document.objects.get(id=document_id)
@@ -74,8 +79,8 @@ def delete_document(request, document_id):
 
 
 @csrf_exempt
+@require_http_methods(["PATCH"])
 def update_signer(request, signer_id):
-    if request.method != 'PATCH': return HttpResponseBadRequest({'status': 'Invalid request method'})
     try:
         signer = Signer.objects.get(id=signer_id)
         data = json.loads(request.body)
@@ -90,8 +95,8 @@ def update_signer(request, signer_id):
 
 
 @csrf_exempt
+@require_http_methods(["PATCH"])
 def update_document(request, document_id):
-    if request.method != 'PATCH': return HttpResponseBadRequest({'status': 'Invalid request method'})
     try:
         document = Document.objects.get(id=document_id)
         data = json.loads(request.body)
