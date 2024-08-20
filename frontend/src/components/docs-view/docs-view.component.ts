@@ -19,6 +19,6 @@ export class DocsViewComponent {
     private readonly _dialog = inject(Dialog);
 
     update(doc: any) {
-        this._dialog.open(EditDocComponent, {data: doc, disableClose: true});
+        this._dialog.open(EditDocComponent, {data: doc});
     }
 }
