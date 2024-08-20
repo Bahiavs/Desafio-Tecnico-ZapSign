@@ -11,7 +11,7 @@ from .usecases.create_document import CreateDocument
 @require_http_methods(["POST"])
 def create_document(request):
     try:
-        return CreateDocument().execute(request)
+        return CreateDocument().execute(request.body)
     except Exception as e:
         return HttpResponseBadRequest(e)
 

@@ -9,7 +9,7 @@ class CreateDocument:
         pass
 
     def execute(self, input_data):
-        request_data = json.loads(input_data.body)
+        request_data = json.loads(input_data)
 
         required_doc_fields = ['name', 'url', 'signers']
         required_signer_fields = ['name', 'email']
@@ -17,12 +17,12 @@ class CreateDocument:
             if field not in request_data:
                 return JsonResponse({'error': f'Missing required field: {field}'}, status=400)
         if not isinstance(request_data['name'], str):
-            return JsonResponse({'error': 'Name must be a string'}, status=400)
+            return JsonResponse({'error': 'name must be a string'}, status=400)
         if not isinstance(request_data['url'], str):
-            return JsonResponse({'error': 'URL must be a string'}, status=400)
+            return JsonResponse({'error': 'url must be a string'}, status=400)
         if not isinstance(request_data['signers'], list):
-            return JsonResponse({'error': 'Signers must be a list'}, status=400)
-        if len(request_data['signers']) == 0: return JsonResponse({'error': 'Signers must at least 1 item'}, status=400)
+            return JsonResponse({'error': 'signers must be a list'}, status=400)
+        if len(request_data['signers']) == 0: return JsonResponse({'error': 'signers must have at least 1 item'}, status=400)
         for signer in request_data['signers']:
             for field in required_signer_fields:
                 if field not in signer:
