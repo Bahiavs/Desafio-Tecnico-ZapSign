@@ -2,8 +2,8 @@
     <div>
         <pre>{{ doc | json }}</pre>
         <button (click)="deleteDocService.execute(doc['documentID'])">🗑️ Deletar</button>
-        @for (signer of doc['signers']; track signer['id']; let i = $index) {
-            <button (click)="editSigner({'id': signer['id'], 'name': signer['name']})">✏️ Editar Signatário {{ i }}
+        @for (signer of doc['signers']; track signer['id']) {
+            <button (click)="editSigner({'id': signer['id'], 'name': signer['name']})">✏️ Editar Signatário {{ signer['id'] }}
             </button>
         }
         <button (click)="editDoc({'documentID': doc['documentID'], 'name': doc['name']})">✏️ Editar Documento</button>
