@@ -1,6 +1,6 @@
 import {Component, inject} from '@angular/core';
 import {GetDocsService} from "../../services/get-docs.service";
-import {AsyncPipe, JsonPipe, NgForOf} from "@angular/common";
+import {AsyncPipe, JsonPipe} from "@angular/common";
 import {DeleteDocService} from "../../services/delete-doc.service";
 import {Dialog, DialogModule} from "@angular/cdk/dialog";
 import {EditDocComponent} from "../edit-doc/edit-doc.component";
@@ -9,7 +9,7 @@ import {EditSignerComponent} from "../edit-signer/edit-signer.component";
 @Component({
     selector: 'docs-view',
     standalone: true,
-    imports: [NgForOf, JsonPipe, AsyncPipe, DialogModule],
+    imports: [JsonPipe, AsyncPipe, DialogModule],
     templateUrl: './docs-view.component.html',
     styleUrl: 'docs-view.component.scss'
 })

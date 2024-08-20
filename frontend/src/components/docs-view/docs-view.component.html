@@ -1,8 +1,11 @@
-<div *ngFor="let doc of (docs$ | async)">
-    <pre>{{ doc | json }}</pre>
-    <button (click)="deleteDocService.execute(doc['documentID'])">🗑️ Deletar</button>
-    @for (signer of doc['signers']; track signer['id']; let i = $index) {
-        <button (click)="editSigner({'id': signer['id'], 'name': signer['name']})">✏️ Editar Signatário {{i}}</button>
-    }
-    <button (click)="editDoc({'documentID': doc['documentID'], 'name': doc['name']})">✏️ Editar Documento</button>
-</div>
+@for (doc of (docs$ | async); track doc['documentID']) {
+    <div>
+        <pre>{{ doc | json }}</pre>
+        <button (click)="deleteDocService.execute(doc['documentID'])">🗑️ Deletar</button>
+        @for (signer of doc['signers']; track signer['id']; let i = $index) {
+            <button (click)="editSigner({'id': signer['id'], 'name': signer['name']})">✏️ Editar Signatário {{ i }}
+            </button>
+        }
+        <button (click)="editDoc({'documentID': doc['documentID'], 'name': doc['name']})">✏️ Editar Documento</button>
+    </div>
+}
