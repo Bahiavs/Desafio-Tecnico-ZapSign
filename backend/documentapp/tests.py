@@ -1,15 +1,17 @@
 import json
 from django.test import TestCase
 
-from .models import Company
+from .interface_adapters.doc_api.doc_api_fake import DocAPIFake
+from .models import Company, Document, Signer
 from .usecases.create_document import CreateDocument
 
 
 class CreateDocumentTestCase(TestCase):
 
     def setUp(self):
-        Company.objects.create(name='Company Name', api_token='b55b295b-20ee-4757-a71a-7185ced23ee599b274bc-b94c-42f5-aa1d-864af1605a57')
-        self.create_document = CreateDocument()
+        Company.objects.create(name='Company Name', api_token='')
+        doc_api = DocAPIFake()
+        self.create_document = CreateDocument(doc_api)
 
     def test_create_doc(self):
         input_data = json.dumps({
@@ -21,6 +23,12 @@ class CreateDocumentTestCase(TestCase):
             ]
         })
         response = self.create_document.execute(input_data)
+        doc = Document.objects.first()
+        signer_a = Signer.objects.get(email='signatarioA@email.com')
+        signer_b = Signer.objects.get(email='signatarioB@email.com')
+        self.assertEqual(doc.name, "Documento A")
+        self.assertEqual(signer_a.email, 'signatarioA@email.com')
+        self.assertEqual(signer_b.email, 'signatarioB@email.com')
         self.assertEqual(response.status_code, 200)
         self.assertIn('Document created successfully', response.content.decode())
 

@@ -3,6 +3,7 @@ from django.http import JsonResponse, HttpResponseNotFound, HttpResponseBadReque
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 
+from .interface_adapters.doc_api.doc_api_zapsign import DocAPIZapSign
 from .models import Document, Signer
 from .usecases.create_document import CreateDocument
 
@@ -11,7 +12,9 @@ from .usecases.create_document import CreateDocument
 @require_http_methods(["POST"])
 def create_document(request):
     try:
-        return CreateDocument().execute(request.body)
+        doc_api = DocAPIZapSign('b55b295b-20ee-4757-a71a-7185ced23ee599b274bc-b94c-42f5-aa1d-864af1605a57') # todo - obter token pelo env var
+        create_doc = CreateDocument(doc_api)
+        return create_doc.execute(request.body)
     except Exception as e:
         return HttpResponseBadRequest(e)
 

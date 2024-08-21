@@ -1,12 +1,12 @@
 import json
 from django.http import JsonResponse
-import requests
 from ..models import Document, Signer, Company
+from ..interface_adapters.doc_api.doc_api import DocAPI, CreateDocAPIRes
 
 
 class CreateDocument:
-    def __init__(self):
-        pass
+    def __init__(self, doc_api: DocAPI):
+        self.doc_api = doc_api
 
     def execute(self, input_data):
         request_data = json.loads(input_data)
@@ -22,7 +22,8 @@ class CreateDocument:
             return JsonResponse({'error': 'url must be a string'}, status=400)
         if not isinstance(request_data['signers'], list):
             return JsonResponse({'error': 'signers must be a list'}, status=400)
-        if len(request_data['signers']) == 0: return JsonResponse({'error': 'signers must have at least 1 item'}, status=400)
+        if len(request_data['signers']) == 0:
+            return JsonResponse({'error': 'signers must have at least 1 item'}, status=400)
         for signer in request_data['signers']:
             for field in required_signer_fields:
                 if field not in signer:
@@ -50,20 +51,18 @@ class CreateDocument:
             'signers': [{'name': signer.name, 'email': signer.email} for signer in signers],
             'url_pdf': request_data['url'],
         }
-        headers = {'Authorization': f'Bearer {company.api_token}'}
-        response = requests.post('https://sandbox.api.zapsign.com.br/api/v1/docs/', json=data, headers=headers)
-        if response.status_code == 200:
-            document_data = response.json()
-            document.openID = document_data['open_id']
-            document.externalID = document_data['external_id']
-            document.token = document_data['token']
-            document.status = document_data['status']
-            document.created_by = document_data['created_by']['email']
+        response = self.doc_api.create_doc(data)
+        if isinstance(response, CreateDocAPIRes):
+            document.openID = response.open_id
+            document.externalID = response.external_id
+            document.token = response.token
+            document.status = response.status
+            document.created_by = response.created_by_email
             document.save()
-            for signer, signer_data in zip(signers, document_data['signers']):
-                signer.externalID = signer_data['external_id']
-                signer.token = signer_data['token']
-                signer.status = signer_data['status']
+            for signer, signer_data in zip(signers, response.signers):
+                signer.externalID = signer_data.external_id
+                signer.token = signer_data.token
+                signer.status = signer_data.status
                 signer.save()
             return JsonResponse({'status': 'Document created successfully'})
         return JsonResponse({'status': 'Error creating document', 'error': response.text}, status=400)
