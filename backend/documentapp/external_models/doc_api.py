@@ -22,4 +22,4 @@ class CreateDocAPIRes:
 
 class DocAPI(ABC):
     @abstractmethod
-    def create_doc(self, data) -> str | CreateDocAPIRes: pass
+    def create_doc(self, data) -> CreateDocAPIRes: pass

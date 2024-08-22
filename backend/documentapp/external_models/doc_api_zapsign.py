@@ -7,7 +7,7 @@ class DocAPIZapSign(DocAPI):
         self.api_token = api_token
         self.api_url = api_url
 
-    def create_doc(self, data) -> str | CreateDocAPIRes:
+    def create_doc(self, data) -> CreateDocAPIRes:
         headers = {'Authorization': f'Bearer {self.api_token}'}
         response = requests.post(
             self.api_url,

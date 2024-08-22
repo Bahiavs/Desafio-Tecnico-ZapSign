@@ -2,7 +2,7 @@ from documentapp.external_models.doc_api import DocAPI, CreateDocAPIRes, Signer
 
 
 class DocAPIFake(DocAPI):
-    def create_doc(self, data) -> str | CreateDocAPIRes:
+    def create_doc(self, data) -> CreateDocAPIRes:
         docs = CreateDocAPIRes(
             open_id=1,
             external_id='',
