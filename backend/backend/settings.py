@@ -2,7 +2,8 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
+ENVIRONMENT = os.environ.get('ENVIRONMENT', 'development')
+if ENVIRONMENT == 'development': load_dotenv()
 ZAPSIGN_API_TOKEN = os.environ.get('ZAPSIGN_API_TOKEN')
 ZAPSIGN_API_URL = os.environ.get('ZAPSIGN_API_URL')
 DATABASE_URL = os.environ.get('DATABASE_URL')
@@ -34,7 +35,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
 ]
-CORS_ALLOWED_ORIGINS = ["http://localhost:4200"]
+CORS_ALLOWED_ORIGINS = [FRONTEND_URL]
 ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
