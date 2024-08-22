@@ -3,13 +3,14 @@ from documentapp.external_models.doc_api import DocAPI, CreateDocAPIRes, Signer
 
 
 class DocAPIZapSign(DocAPI):
-    def __init__(self, api_token):
+    def __init__(self, api_token, api_url):
         self.api_token = api_token
+        self.api_url = api_url
 
     def create_doc(self, data) -> str | CreateDocAPIRes:
-        headers = {'Authorization': f'Bearer {self.api_token}'}  # todo - obter Token do env
+        headers = {'Authorization': f'Bearer {self.api_token}'}
         response = requests.post(
-            'https://sandbox.api.zapsign.com.br/api/v1/docs/', # todo - obter URL do env
+            self.api_url,
             json=data,
             headers=headers
         )

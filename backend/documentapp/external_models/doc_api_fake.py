@@ -1,4 +1,4 @@
-from documentapp.interface_adapters.doc_api.doc_api import DocAPI, CreateDocAPIRes, Signer
+from documentapp.external_models.doc_api import DocAPI, CreateDocAPIRes, Signer
 
 
 class DocAPIFake(DocAPI):
