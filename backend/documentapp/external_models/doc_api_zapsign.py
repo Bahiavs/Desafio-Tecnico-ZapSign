@@ -13,7 +13,7 @@ class DocAPIZapSign(DocAPI):
             json=data,
             headers=headers
         )
-        if response.status_code != 200: return f"Error: {response.status_code}"
+        if response.status_code != 200: raise RuntimeError(f"error: external API not responding correctly")
         response_body = response.json()
         signers = []
         for signer in response_body['signers']:
