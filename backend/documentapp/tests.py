@@ -7,9 +7,8 @@ from .usecases.create_document import CreateDocument
 
 
 class CreateDocumentTestCase(TestCase):
-
     def setUp(self):
-        Company.objects.create(name='Company Name', api_token='')
+        Company.objects.create(name='Company Name', api_token="''")
         doc_api = DocAPIFake()
         self.create_document = CreateDocument(doc_api)
 
@@ -29,35 +28,31 @@ class CreateDocumentTestCase(TestCase):
         self.assertEqual(doc.name, "Documento A")
         self.assertEqual(signer_a.email, 'signatarioA@email.com')
         self.assertEqual(signer_b.email, 'signatarioB@email.com')
-        self.assertEqual(response.status_code, 200)
-        self.assertIn('Document created successfully', response.content.decode())
+        self.assertEqual(response, True)
 
     def test_doc_missing_field_name(self):
         input_data = json.dumps({
             "url": "https://zapsign.s3.amazonaws.com/2022/1/pdf/63d19807-cbfa-4b51-8571-215ad0f4eb98/ca42e7be-c932-482c-b70b-92ad7aea04be.pdf",
             "signers": [{"name": "Signer Name", "email": "signer@email.com"}]
         })
-        response = self.create_document.execute(input_data)
-        self.assertEqual(response.status_code, 400)
-        self.assertIn('Missing required field: name', response.content.decode())
+        with self.assertRaises(KeyError) as context: self.create_document.execute(input_data)
+        self.assertEqual(str(context.exception), "'missing required field: name'")
 
     def test_doc_missing_field_url(self):
         input_data = json.dumps({
             "name": "Doc Name",
             "signers": [{"name": "Signer Name", "email": "signer@email.com"}]
         })
-        response = self.create_document.execute(input_data)
-        self.assertEqual(response.status_code, 400)
-        self.assertIn('Missing required field: url', response.content.decode())
+        with self.assertRaises(KeyError) as context: self.create_document.execute(input_data)
+        self.assertEqual(str(context.exception), "'missing required field: url'")
 
     def test_doc_missing_field_signer(self):
         input_data = json.dumps({
             "name": "Doc Name",
             "url": "https://zapsign.s3.amazonaws.com/2022/1/pdf/63d19807-cbfa-4b51-8571-215ad0f4eb98/ca42e7be-c932-482c-b70b-92ad7aea04be.pdf",
         })
-        response = self.create_document.execute(input_data)
-        self.assertEqual(response.status_code, 400)
-        self.assertIn('Missing required field: signer', response.content.decode())
+        with self.assertRaises(KeyError) as context: self.create_document.execute(input_data)
+        self.assertEqual(str(context.exception), "'missing required field: signers'")
 
     def test_doc_invalid_name_type(self):
         input_data = json.dumps({
@@ -65,17 +60,15 @@ class CreateDocumentTestCase(TestCase):
             "url": "https://zapsign.s3.amazonaws.com/2022/1/pdf/63d19807-cbfa-4b51-8571-215ad0f4eb98/ca42e7be-c932-482c-b70b-92ad7aea04be.pdf",
             "signers": [{"name": "Signer Name", "email": "signer@email.com"}]
         })
-        response = self.create_document.execute(input_data)
-        self.assertEqual(response.status_code, 400)
-        self.assertIn('name must be a string', response.content.decode())
+        with self.assertRaises(TypeError) as context: self.create_document.execute(input_data)
+        self.assertEqual(str(context.exception), "name must be a string")
 
     def test_doc_invalid_url_type(self):
         input_data = json.dumps(
             {"name": 'Doc Name', "url": 123, "signers": [{"name": "Signer Name", "email": "signer@email.com"}]}
         )
-        response = self.create_document.execute(input_data)
-        self.assertEqual(response.status_code, 400)
-        self.assertIn('url must be a string', response.content.decode())
+        with self.assertRaises(TypeError) as context: self.create_document.execute(input_data)
+        self.assertEqual(str(context.exception), "name must be a string")
 
     def test_doc_invalid_signer_type(self):
         input_data = json.dumps({
@@ -83,9 +76,8 @@ class CreateDocumentTestCase(TestCase):
             "url": "https://zapsign.s3.amazonaws.com/2022/1/pdf/63d19807-cbfa-4b51-8571-215ad0f4eb98/ca42e7be-c932-482c-b70b-92ad7aea04be.pdf",
             "signers": 123
         })
-        response = self.create_document.execute(input_data)
-        self.assertEqual(response.status_code, 400)
-        self.assertIn('signers must be a list', response.content.decode())
+        with self.assertRaises(TypeError) as context: self.create_document.execute(input_data)
+        self.assertEqual(str(context.exception), "name must be a list")
 
     def test_doc_empty_signer(self):
         input_data = json.dumps({
@@ -93,9 +85,8 @@ class CreateDocumentTestCase(TestCase):
             "url": "https://zapsign.s3.amazonaws.com/2022/1/pdf/63d19807-cbfa-4b51-8571-215ad0f4eb98/ca42e7be-c932-482c-b70b-92ad7aea04be.pdf",
             "signers": []
         })
-        response = self.create_document.execute(input_data)
-        self.assertEqual(response.status_code, 400)
-        self.assertIn('signers must have at least 1 item', response.content.decode())
+        with self.assertRaises(ValueError) as context: self.create_document.execute(input_data)
+        self.assertEqual(str(context.exception), "signers must have at least 1 item")
 
     def test_doc_missing_signer_field_name(self):
         input_data = json.dumps({
@@ -103,9 +94,8 @@ class CreateDocumentTestCase(TestCase):
             "url": "https://zapsign.s3.amazonaws.com/2022/1/pdf/63d19807-cbfa-4b51-8571-215ad0f4eb98/ca42e7be-c932-482c-b70b-92ad7aea04be.pdf",
             "signers": [{"email": "signer@email.com"}]
         })
-        response = self.create_document.execute(input_data)
-        self.assertEqual(response.status_code, 400)
-        self.assertIn('Missing required field in a signer: name', response.content.decode())
+        with self.assertRaises(KeyError) as context: self.create_document.execute(input_data)
+        self.assertEqual(str(context.exception), "'missing signer required field: name'")
 
     def test_doc_missing_signer_field_email(self):
         input_data = json.dumps({
@@ -113,9 +103,8 @@ class CreateDocumentTestCase(TestCase):
             "url": "https://zapsign.s3.amazonaws.com/2022/1/pdf/63d19807-cbfa-4b51-8571-215ad0f4eb98/ca42e7be-c932-482c-b70b-92ad7aea04be.pdf",
             "signers": [{"name": "Signer Name"}]
         })
-        response = self.create_document.execute(input_data)
-        self.assertEqual(response.status_code, 400)
-        self.assertIn('Missing required field in a signer: email', response.content.decode())
+        with self.assertRaises(KeyError) as context: self.create_document.execute(input_data)
+        self.assertEqual(str(context.exception), "'missing signer required field: email'")
 
     def test_doc_invalid_signer_name_type(self):
         input_data = json.dumps({
@@ -123,9 +112,8 @@ class CreateDocumentTestCase(TestCase):
             "url": "https://zapsign.s3.amazonaws.com/2022/1/pdf/63d19807-cbfa-4b51-8571-215ad0f4eb98/ca42e7be-c932-482c-b70b-92ad7aea04be.pdf",
             "signers": [{"name": 123, "email": "signer@email.com"}]
         })
-        response = self.create_document.execute(input_data)
-        self.assertEqual(response.status_code, 400)
-        self.assertIn('Signer name must be a string', response.content.decode())
+        with self.assertRaises(TypeError) as context: self.create_document.execute(input_data)
+        self.assertEqual(str(context.exception), "name must be a string")
 
     def test_doc_invalid_signer_email_type(self):
         input_data = json.dumps({
@@ -133,6 +121,5 @@ class CreateDocumentTestCase(TestCase):
             "url": "https://zapsign.s3.amazonaws.com/2022/1/pdf/63d19807-cbfa-4b51-8571-215ad0f4eb98/ca42e7be-c932-482c-b70b-92ad7aea04be.pdf",
             "signers": [{"name": "Signer Name", "email": 123}]
         })
-        response = self.create_document.execute(input_data)
-        self.assertEqual(response.status_code, 400)
-        self.assertIn('Signer email must be a string', response.content.decode())
+        with self.assertRaises(TypeError) as context: self.create_document.execute(input_data)
+        self.assertEqual(str(context.exception), "name must be a string")
