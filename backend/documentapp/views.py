@@ -2,12 +2,12 @@ import json
 from django.http import JsonResponse, HttpResponseNotFound, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
-
 from .interface_adapters.doc_api.doc_api_zapsign import DocAPIZapSign
 from .models import Document, Signer
 from .usecases.create_document import CreateDocument
 from .usecases.delete_doc import DeleteDoc
 from .usecases.get_docs import GetDocs
+from .usecases.update_signer import UpdateSigner
 
 
 @csrf_exempt
@@ -51,16 +51,13 @@ def delete_document(request, document_id):
 @require_http_methods(["PATCH"])
 def update_signer(request, signer_id):
     try:
-        signer = Signer.objects.get(id=signer_id)
-        data = json.loads(request.body)
-        signer.name = data.get('name', signer.name)
-        signer.email = data.get('email', signer.email)
-        signer.save()
-        return JsonResponse({'status': 'Signer updated successfully'})
+        signer_data = json.loads(request.body)
+        UpdateSigner().execute(signer_id, signer_data)
+        return JsonResponse({'status': 'signer updated successfully'}, status=200)
     except Signer.DoesNotExist:
-        return HttpResponseNotFound({'status': 'Signer not found'})
-    except json.JSONDecodeError:
-        return HttpResponseBadRequest({'status': 'Invalid JSON'})
+        return HttpResponseNotFound({'error': 'signer not found'})
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
 
 
 @csrf_exempt
