@@ -1,14 +1,16 @@
 import requests
 from documentapp.external_models.doc_api import DocAPI, CreateDocAPIRes, Signer
+from documentapp.models import Company
 
 
 class DocAPIZapSign(DocAPI):
-    def __init__(self, api_token, api_url):
-        self.api_token = api_token
+    def __init__(self, api_url):
         self.api_url = api_url
 
     def create_doc(self, data) -> CreateDocAPIRes:
-        headers = {'Authorization': f'Bearer {self.api_token}'}
+        company = Company.objects.get(name="ZapSign")
+        api_token = company.api_token
+        headers = {'Authorization': f'Bearer {api_token}'}
         response = requests.post(
             self.api_url,
             json=data,

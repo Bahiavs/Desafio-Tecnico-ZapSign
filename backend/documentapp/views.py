@@ -17,7 +17,7 @@ from .usecases.update_signer import UpdateSigner
 @require_http_methods(["POST"])
 def create_document(request):
     try:
-        doc_api = DocAPIZapSign(settings.ZAPSIGN_API_TOKEN, settings.ZAPSIGN_API_URL)  # todo - obter token do banco
+        doc_api = DocAPIZapSign(settings.ZAPSIGN_API_URL)
         create_doc = CreateDocument(doc_api)
         input_data = json.loads(request.body)
         create_doc.execute(input_data)
