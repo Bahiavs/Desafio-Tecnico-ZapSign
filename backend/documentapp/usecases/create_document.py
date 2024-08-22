@@ -8,26 +8,23 @@ class CreateDocument:
         self.doc_api = doc_api
 
     def execute(self, input_data):
-        request_data = json.loads(input_data)
-
         required_doc_fields = ['name', 'url', 'signers']
         required_signer_fields = ['name', 'email']
         for field in required_doc_fields:
-            if field not in request_data: raise KeyError(f'missing required field: {field}')
-        if not isinstance(request_data['name'], str): raise TypeError('name must be a string')
-        if not isinstance(request_data['url'], str): raise TypeError('name must be a string')
-        if not isinstance(request_data['signers'], list): raise TypeError('name must be a list')
-        if len(request_data['signers']) == 0: raise ValueError('signers must have at least 1 item')
-        for signer in request_data['signers']:
+            if field not in input_data: raise KeyError(f'missing required field: {field}')
+        if not isinstance(input_data['name'], str): raise TypeError('name must be a string')
+        if not isinstance(input_data['url'], str): raise TypeError('name must be a string')
+        if not isinstance(input_data['signers'], list): raise TypeError('name must be a list')
+        if len(input_data['signers']) == 0: raise ValueError('signers must have at least 1 item')
+        for signer in input_data['signers']:
             for field in required_signer_fields:
                 if field not in signer: raise KeyError(f'missing signer required field: {field}')
-        for signer in request_data['signers']:
+        for signer in input_data['signers']:
             if not isinstance(signer['name'], str): raise TypeError('name must be a string')
             if not isinstance(signer['email'], str): raise TypeError('name must be a string')
-
         company = Company.objects.first()
-        document = Document.objects.create(companyID=company, name=request_data['name'], status='initial')
-        signers_data = request_data['signers']
+        document = Document.objects.create(companyID=company, name=input_data['name'], status='initial')
+        signers_data = input_data['signers']
         signers = []
         for signer in signers_data:
             signer_obj = Signer.objects.create(
@@ -40,7 +37,7 @@ class CreateDocument:
         data = {
             'name': document.name,
             'signers': [{'name': signer.name, 'email': signer.email} for signer in signers],
-            'url_pdf': request_data['url'],
+            'url_pdf': input_data['url'],
         }
         response = self.doc_api.create_doc(data)
         document.openID = response.open_id

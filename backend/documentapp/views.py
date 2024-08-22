@@ -14,7 +14,8 @@ def create_document(request):
     try:
         doc_api = DocAPIZapSign('b55b295b-20ee-4757-a71a-7185ced23ee599b274bc-b94c-42f5-aa1d-864af1605a57') # todo - obter token pelo env var
         create_doc = CreateDocument(doc_api)
-        create_doc.execute(request.body)
+        input_data = json.loads(request.body)
+        create_doc.execute(input_data)
         return JsonResponse({'success': 'document created'}, status=200)
     except Exception as e:
         error_msg = str(e).strip("'\"")
