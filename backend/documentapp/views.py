@@ -6,6 +6,7 @@ from django.views.decorators.http import require_http_methods
 from .interface_adapters.doc_api.doc_api_zapsign import DocAPIZapSign
 from .models import Document, Signer
 from .usecases.create_document import CreateDocument
+from .usecases.delete_doc import DeleteDoc
 from .usecases.get_docs import GetDocs
 
 
@@ -38,11 +39,12 @@ def get_documents(request):
 @require_http_methods(["DELETE"])
 def delete_document(request, document_id):
     try:
-        document = Document.objects.get(id=document_id)
-        document.delete()
-        return JsonResponse({'status': 'Document deleted successfully'})
+        DeleteDoc().execute(document_id)
+        return JsonResponse({'success': 'document deleted'}, status=200)
     except Document.DoesNotExist:
-        return HttpResponseNotFound({'status': 'Document not found'})
+        return HttpResponseNotFound({'error': 'document not found'})
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
 
 
 @csrf_exempt
