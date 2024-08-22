@@ -2,7 +2,7 @@ import json
 from django.http import JsonResponse, HttpResponseNotFound, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
-from .interface_adapters.doc_api.doc_api_zapsign import DocAPIZapSign
+from .external_models.doc_api_zapsign import DocAPIZapSign
 from .models import Document, Signer
 from .usecases.create_document import CreateDocument
 from .usecases.delete_doc import DeleteDoc

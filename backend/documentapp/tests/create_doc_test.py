@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from documentapp.interface_adapters.doc_api.doc_api_fake import DocAPIFake
+from documentapp.external_models.doc_api_fake import DocAPIFake
 from documentapp.models import Company, Document, Signer
 from documentapp.usecases.create_document import CreateDocument
 
