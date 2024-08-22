@@ -1,9 +1,8 @@
-import json
 from django.test import TestCase
 
-from .interface_adapters.doc_api.doc_api_fake import DocAPIFake
-from .models import Company, Document, Signer
-from .usecases.create_document import CreateDocument
+from documentapp.interface_adapters.doc_api.doc_api_fake import DocAPIFake
+from documentapp.models import Company, Document, Signer
+from documentapp.usecases.create_document import CreateDocument
 
 
 class CreateDocumentTestCase(TestCase):
