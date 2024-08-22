@@ -6,13 +6,14 @@ from django.views.decorators.http import require_http_methods
 from .interface_adapters.doc_api.doc_api_zapsign import DocAPIZapSign
 from .models import Document, Signer
 from .usecases.create_document import CreateDocument
+from .usecases.get_docs import GetDocs
 
 
 @csrf_exempt
 @require_http_methods(["POST"])
 def create_document(request):
     try:
-        doc_api = DocAPIZapSign('b55b295b-20ee-4757-a71a-7185ced23ee599b274bc-b94c-42f5-aa1d-864af1605a57') # todo - obter token pelo env var
+        doc_api = DocAPIZapSign('b55b295b-20ee-4757-a71a-7185ced23ee599b274bc-b94c-42f5-aa1d-864af1605a57')  # todo - obter token pelo env var
         create_doc = CreateDocument(doc_api)
         input_data = json.loads(request.body)
         create_doc.execute(input_data)
@@ -21,24 +22,16 @@ def create_document(request):
         error_msg = str(e).strip("'\"")
         return JsonResponse({'error': error_msg}, status=400)
 
+
 @csrf_exempt
 @require_http_methods(["GET"])
 def get_documents(request):
-    documents = Document.objects.all()
-    documents_list = []
-    for document in documents:
-        signers = Signer.objects.filter(documentID=document)
-        signers_list = list(signers.values('name', 'email', 'status', 'id'))
-        documents_list.append({
-            'documentID': document.id,
-            'name': document.name,
-            'status': document.status,
-            'createdAt': document.created_at,
-            'createdBy': document.created_by,
-            'signers': signers_list
-        })
-    # `safe=False`: permite retornar qualquer tipo de objeto serializável em JSON, como listas, além de dicionários
-    return JsonResponse(documents_list, safe=False)
+    try:
+        get_doc = GetDocs()
+        docs = get_doc.execute()
+        return JsonResponse(docs, safe=False, status=200)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
 
 
 @csrf_exempt
