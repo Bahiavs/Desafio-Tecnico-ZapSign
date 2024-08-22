@@ -4,11 +4,12 @@ from dotenv import load_dotenv
 
 ENVIRONMENT = os.environ.get('ENVIRONMENT', 'development')
 if ENVIRONMENT == 'development': load_dotenv()
-ZAPSIGN_API_TOKEN = os.environ.get('ZAPSIGN_API_TOKEN')
 ZAPSIGN_API_URL = os.environ.get('ZAPSIGN_API_URL')
-DATABASE_URL = os.environ.get('DATABASE_URL')
 DATABASE_NAME = os.environ.get('DATABASE_NAME')
+DATABASE_USER = os.environ.get('DATABASE_USER')
 DATABASE_PASSWORD = os.environ.get('DATABASE_PASSWORD')
+DATABASE_HOST = os.environ.get('DATABASE_HOST')
+DATABASE_PORT = os.environ.get('DATABASE_PORT')
 FRONTEND_URL = os.environ.get('FRONTEND_URL')
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -57,11 +58,11 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'desafio_zapsign',
-        'USER': 'postgres',
-        'PASSWORD': 'password',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': DATABASE_NAME,
+        'USER': DATABASE_USER,
+        'PASSWORD': DATABASE_PASSWORD,
+        'HOST': DATABASE_HOST,
+        'PORT': DATABASE_PORT,
     }
 }
 AUTH_PASSWORD_VALIDATORS = [
