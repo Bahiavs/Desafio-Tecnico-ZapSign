@@ -11,7 +11,7 @@ export class GetDocsService {
 
     execute(): Observable<GetDocsState> {
         this._docs$.next('loading')
-        const subscription = this._http.get<any[]>(this._apiUrl).subscribe({
+        const subscription = this._http.get<GetDocsServiceOutput>(this._apiUrl).subscribe({
             next: response => this._docs$.next(response),
             error: () => this._docs$.next('error'),
             complete: () => subscription.unsubscribe()
@@ -20,4 +20,17 @@ export class GetDocsService {
     }
 }
 
-type GetDocsState = any[] | 'loading' | 'error'
+type GetDocsState = GetDocsServiceOutput | 'loading' | 'error'
+type GetDocsServiceOutput = {
+    documentID: number,
+    name: string,
+    status: string,
+    createdAt: string,
+    createdBy: string,
+    signers: {
+        name: string,
+        email: string,
+        status: string,
+        id: number
+    }[]
+}[]
