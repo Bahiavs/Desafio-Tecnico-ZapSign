@@ -14,16 +14,21 @@ import {EditSignerComponent} from "../edit-signer/edit-signer.component";
     styleUrl: 'docs-view.component.scss'
 })
 export class DocsViewComponent {
-    private readonly _getDocsService = inject(GetDocsService);
-    protected readonly deleteDocService = inject(DeleteDocService);
-    protected readonly docs$ = this._getDocsService.execute();
     private readonly _dialog = inject(Dialog);
-
+    private readonly _getDocsService = inject(GetDocsService);
+    private readonly _deleteDocService = inject(DeleteDocService);
+    readonly loadingDocDeletions$ = this._deleteDocService.loadingDocDeletions$
+    readonly docs$ = this._getDocsService.execute();
+    
     editDoc(doc: any) {
         this._dialog.open(EditDocComponent, {data: doc});
     }
-
+    
     editSigner(signer: any) {
         this._dialog.open(EditSignerComponent, {data: signer});
+    }
+    
+    deleteDoc(docID: any) {
+        this._deleteDocService.execute(docID);
     }
 }

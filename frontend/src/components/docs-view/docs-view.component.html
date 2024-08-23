@@ -6,12 +6,17 @@
         @for (doc of docs; track doc['documentID']) {
             <div>
                 <pre>{{ doc | json }}</pre>
-                <button (click)="deleteDocService.execute(doc['documentID'])">🗑️ Deletar</button>
+                <button (click)="deleteDoc(doc['documentID'])" [disabled]="(loadingDocDeletions$ | async)?.has(doc['documentID'])">
+                    🗑️ Deletar
+                </button>
                 @for (signer of doc['signers']; track signer['id']) {
-                    <button (click)="editSigner({'id': signer['id'], 'name': signer['name']})">✏️ Editar Signatário {{ signer['id'] }}
+                    <button (click)="editSigner({'id': signer['id'], 'name': signer['name']})">
+                        ✏️ Editar Signatário {{ signer['id'] }}
                     </button>
                 }
-                <button (click)="editDoc({'documentID': doc['documentID'], 'name': doc['name']})">✏️ Editar Documento</button>
+                <button (click)="editDoc({'documentID': doc['documentID'], 'name': doc['name']})">
+                    ✏️ Editar Documento
+                </button>
             </div>
         } @empty {
             Sem documentos
