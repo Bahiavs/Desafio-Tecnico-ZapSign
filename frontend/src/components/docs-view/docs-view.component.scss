@@ -11,4 +11,9 @@ pre {
 
 div {
   background-color: black;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  padding: .5rem;
+  border-radius: .5rem;
 }
