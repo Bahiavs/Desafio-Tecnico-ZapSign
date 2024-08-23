@@ -1,15 +1,15 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {GetDocsService} from "./get-docs.service";
-import { BehaviorSubject } from 'rxjs';
+import {BehaviorSubject} from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class UpdateDocService {
     private readonly _apiUrl = 'http://localhost:8000/documentapp/update-document';
     private readonly _http = inject(HttpClient);
     private readonly _getDocsService = inject(GetDocsService);
-    private readonly _loadingDocUpdates$ = new BehaviorSubject<Set<any>>(new Set())
-    readonly loadingDocUpdates$ = this._loadingDocUpdates$.asObservable()
+    private readonly _loadingDocUpdates$ = new BehaviorSubject<Set<any>>(new Set());
+    readonly loadingDocUpdates$ = this._loadingDocUpdates$.asObservable();
 
     execute(docID: any, documentData: any) {
         const url = `${this._apiUrl}/${docID}`;

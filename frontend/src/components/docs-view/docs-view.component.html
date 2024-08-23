@@ -10,7 +10,8 @@
                     🗑️ Deletar
                 </button>
                 @for (signer of doc['signers']; track signer['id']) {
-                    <button (click)="editSigner({'id': signer['id'], 'name': signer['name']})">
+                    <button (click)="editSigner({'id': signer['id'], 'name': signer['name']})" 
+                            [disabled]="(loadingSignerUpdates$ | async)?.has(signer['id'])">
                         ✏️ Editar Signatário {{ signer['id'] }}
                     </button>
                 }
