@@ -14,7 +14,8 @@
                         ✏️ Editar Signatário {{ signer['id'] }}
                     </button>
                 }
-                <button (click)="editDoc({'documentID': doc['documentID'], 'name': doc['name']})">
+                <button (click)="editDoc({'documentID': doc['documentID'], 'name': doc['name']})" 
+                        [disabled]="(loadingDocUpdates$ | async)?.has(doc['documentID'])">
                     ✏️ Editar Documento
                 </button>
             </div>

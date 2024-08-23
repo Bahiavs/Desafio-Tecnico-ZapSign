@@ -5,6 +5,7 @@ import {DeleteDocService} from "../../services/delete-doc.service";
 import {Dialog, DialogModule} from "@angular/cdk/dialog";
 import {EditDocComponent} from "../edit-doc/edit-doc.component";
 import {EditSignerComponent} from "../edit-signer/edit-signer.component";
+import {UpdateDocService} from '../../services/update-doc.service';
 
 @Component({
     selector: 'docs-view',
@@ -17,7 +18,9 @@ export class DocsViewComponent {
     private readonly _dialog = inject(Dialog);
     private readonly _getDocsService = inject(GetDocsService);
     private readonly _deleteDocService = inject(DeleteDocService);
+    private readonly _updateDocService = inject(UpdateDocService);
     readonly loadingDocDeletions$ = this._deleteDocService.loadingDocDeletions$
+    readonly loadingDocUpdates$ = this._updateDocService.loadingDocUpdates$
     readonly docs$ = this._getDocsService.execute();
     
     editDoc(doc: any) {
