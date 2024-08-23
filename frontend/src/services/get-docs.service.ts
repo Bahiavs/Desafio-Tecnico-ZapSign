@@ -12,8 +12,13 @@ export class GetDocsService {
 
     execute(): Observable<GetDocsState> {
         this._docs$.next('loading')
-        const subscription = this._http.get<GetDocsServiceOutput>(this._apiUrl).subscribe({
-            next: response => this._docs$.next(response),
+        const subscription = this._http.get<GetDocsAPIResponse>(this._apiUrl).subscribe({
+            next: response => {
+                const docOutput: GetDocsServiceOutput = response.map(docResponse => {
+                    return {...docResponse, createdAt: new Date(docResponse.createdAt)}
+                })
+                this._docs$.next(docOutput)
+            },
             error: () => this._docs$.next('error'),
             complete: () => subscription.unsubscribe()
         })
@@ -22,7 +27,22 @@ export class GetDocsService {
 }
 
 type GetDocsState = GetDocsServiceOutput | 'loading' | 'error'
+
 type GetDocsServiceOutput = {
+    documentID: number,
+    name: string,
+    status: string,
+    createdAt: Date,
+    createdBy: string,
+    signers: {
+        name: string,
+        email: string,
+        status: string,
+        id: number
+    }[]
+}[]
+
+type GetDocsAPIResponse = {
     documentID: number,
     name: string,
     status: string,

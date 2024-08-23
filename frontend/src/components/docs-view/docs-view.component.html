@@ -31,7 +31,7 @@
                 </div>
                 <div class="field">
                     <div>Criado em</div>
-                    <div>{{doc.createdAt}}</div>
+                    <div>{{doc.createdAt | date}}</div>
                 </div>
                 <h2 class="field">Signatários</h2>
                 @for (signer of doc.signers; track $index; let i = $index) {
