@@ -1,31 +1,25 @@
 @use '@angular/material' as mat;
 
 @include mat.core();
-/*$documentapp-theme: mat.define-theme((
-        color: (
-                theme-type: dark,
-                primary: mat.$azure-palette,
-                tertiary: mat.$blue-palette,
-        ),
-        density: (
-                scale: 0,
-        )
-));*/
+
+
 :root {
   color-scheme: dark;
-  /*@include mat.all-component-themes($documentapp-theme);*/
 }
 
 body {
   font-family: system-ui;
-  color: rgba(255, 255, 255, 0.8);
+  color: #bec9c8;
+  background-color: #191c1c;
 }
 
 body, pre, h1, h2 {
   margin: 0;
 }
 
-h1, h2 { color: white }
+h1, h2 {
+  color: white
+}
 
 html, body {
   height: 100%;
@@ -33,4 +27,41 @@ html, body {
 
 button {
   cursor: pointer;
+  border-radius: 100rem;
+  border: none;
+  background-color: transparent;
+  color: #00dddd;
+  padding: 0 1.5rem;
+  height: 2.5rem;
+
+  &:hover {
+    background-color: #172c2c;
+  }
+
+  &:active {
+    background-color: #134949;
+  }
+}
+
+input {
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  padding: .5em 1em;
+  background: #3f4948;
+  border-bottom: 0.125em solid #bec9c8;
+  border-top-left-radius: 0.25em;
+  border-top-right-radius: 0.25em;
+
+  &:hover {
+    background-color: #4c5554;
+  }
+
+  &:focus {
+    border-color: #00dddd;
+  }
+
+  &::placeholder {
+    color: #bec9c8;
+  }
 }

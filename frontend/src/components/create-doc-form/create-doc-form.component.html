@@ -6,9 +6,9 @@
             <input id="signerName" formControlName="name" placeholder="Nome do signatário" />
             <input id="signerEmail" formControlName="email" placeholder="Email do signatário" />
         </div>
-        @if (signers.controls.length > 1) {<button type="button" (click)="removeSigner(i)" id="remove-signer">❌</button>}
+        @if (signers.controls.length > 1) {<button type="button" (click)="removeSigner(i)" id="remove-signer">X</button>}
     </div>
-    <button type="button" (click)="autoFill()">📝 Auto Preencher</button>
-    <button type="button" (click)="addSigner()">➕ Adicionar Signatário</button>
-    <button type="submit" id="submit">✈️ Enviar</button>
+    <button type="button" (click)="autoFill()">✎ Auto Preencher</button>
+    <button type="button" (click)="addSigner()">✚ Adicionar Signatário</button>
+    <button type="submit" id="submit">✈ Enviar</button>
 </form>

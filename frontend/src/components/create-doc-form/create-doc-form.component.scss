@@ -1,13 +1,13 @@
 :host {
     display: block;
-    padding: 1rem;
-    background-color: black;
+    padding: 1.5rem;
+    background-color: #0f1111;
 }
 
 form {
     display: flex;
     flex-wrap: wrap;
-    gap: .5rem;
+    gap: 1.25rem;
 
     & > div {
         flex-basis: 100%;
@@ -21,23 +21,26 @@ input {
 .signer {
     display: flex;
     gap: .5rem;
-    padding: .5rem;
-    background-color: rgba(255, 255, 255, 0.1);
     border-radius: .5rem;
     align-items: center;
 
     div {
         display: flex;
         flex-wrap: wrap;
-        gap: .5rem;
+        gap: 1.25rem;
     }
 }
 
 #remove-signer {
+    font-size: 1.1rem;
     padding: 0;
     border: none;
-    border-radius: 50%;
-    background-color: transparent;
+    height: 2.5rem;
+    width: 2.5rem;
+    border-radius: .5rem;
+    color: #ffdcc7;
+    font-family: monospace;
+    background-color: #723600;
 }
 
 button {
