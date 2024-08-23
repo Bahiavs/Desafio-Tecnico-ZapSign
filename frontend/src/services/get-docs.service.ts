@@ -22,7 +22,7 @@ export class GetDocsService {
 
 type GetDocsState = GetDocsServiceOutput | 'loading' | 'error'
 type GetDocsServiceOutput = {
-    documentID: number,
+    id: number,
     name: string,
     status: string,
     createdAt: string,

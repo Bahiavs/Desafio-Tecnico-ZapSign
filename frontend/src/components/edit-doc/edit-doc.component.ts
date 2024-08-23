@@ -13,12 +13,17 @@ import {UpdateDocService} from "../../services/update-doc.service";
 export class EditDocComponent {
     private readonly _dialogRef = inject(DialogRef);
     private readonly _updateDocService = inject(UpdateDocService);
-    private readonly _data = inject(DIALOG_DATA);
+    private readonly _data = inject<EditDocComponentInput>(DIALOG_DATA);
     readonly nameFormCtrl = new FormControl(this._data.name, Validators.required);
 
     save() {
         if (this.nameFormCtrl.invalid) return
-        this._updateDocService.execute(this._data['documentID'], {'name': this.nameFormCtrl.value})
+        this._updateDocService.execute(this._data.id, {name: this.nameFormCtrl.value as string})
         this._dialogRef.close()
     }
+}
+
+export interface EditDocComponentInput {
+    id: number, 
+    name: string
 }

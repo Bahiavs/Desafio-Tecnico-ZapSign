@@ -6,20 +6,20 @@
     @case ('error') {Erro ao buscar documentos}
     @case ('loading') {Carregando}
     @default {
-        @for (doc of docs; track doc.documentID) {
+        @for (doc of docs; track doc.id) {
             <div>
                 <pre>{{ doc | json }}</pre>
-                <button (click)="deleteDoc(doc.documentID)" [disabled]="loadingDocDeletions?.has(doc.documentID)">
+                <button (click)="deleteDoc(doc.id)" [disabled]="loadingDocDeletions?.has(doc.id)">
                     🗑️ Deletar
                 </button>
                 @for (signer of doc.signers; track signer.id) {
-                    <button (click)="editSigner({'id': signer.id, 'name': signer['name']})" 
-                            [disabled]="loadingSignerUpdates?.has(signer.id) || loadingDocDeletions?.has(doc.documentID)">
+                    <button (click)="editSigner({'id': signer.id, 'name': signer.name})" 
+                            [disabled]="loadingSignerUpdates?.has(signer.id) || loadingDocDeletions?.has(doc.id)">
                         ✏️ Editar Signatário {{ signer.id }}
                     </button>
                 }
-                <button (click)="editDoc({'documentID': doc.documentID, 'name': doc['name']})" 
-                        [disabled]="loadingDocUpdates?.has(doc.documentID) || loadingDocDeletions?.has(doc.documentID)">
+                <button (click)="editDoc(doc.id, doc.name)" 
+                        [disabled]="loadingDocUpdates?.has(doc.id) || loadingDocDeletions?.has(doc.id)">
                     ✏️ Editar Documento
                 </button>
             </div>

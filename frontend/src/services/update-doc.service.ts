@@ -8,25 +8,29 @@ export class UpdateDocService {
     private readonly _apiUrl = 'http://localhost:8000/documentapp/update-document';
     private readonly _http = inject(HttpClient);
     private readonly _getDocsService = inject(GetDocsService);
-    private readonly _loadingDocUpdates$ = new BehaviorSubject<Set<any>>(new Set());
+    private readonly _loadingDocUpdates$ = new BehaviorSubject<Set<number>>(new Set());
     readonly loadingDocUpdates$ = this._loadingDocUpdates$.asObservable();
 
-    execute(docID: any, documentData: any) {
-        const url = `${this._apiUrl}/${docID}`;
+    execute(id: number, documentData: UpdateDocServiceInput) {
+        const url = `${this._apiUrl}/${id}`;
         const body = JSON.stringify(documentData);
-        this._loadingDocUpdates$.next(this._loadingDocUpdates$.value.add(docID))
-        const subscription = this._http.patch<any>(url, body).subscribe({
+        this._loadingDocUpdates$.next(this._loadingDocUpdates$.value.add(id))
+        const subscription = this._http.patch(url, body).subscribe({
             next: () => {
                 this._getDocsService.execute();
                 alert(`Sucesso ao editar documento`)
             },
-            error: () => alert(`Erro ao editar documento ${docID}`),
+            error: () => alert(`Erro ao editar documento ${id}`),
             complete: () => {
                 const loadingDocUpdates = this._loadingDocUpdates$.value
-                loadingDocUpdates.delete(docID)
+                loadingDocUpdates.delete(id)
                 this._loadingDocUpdates$.next(loadingDocUpdates)
                 subscription.unsubscribe()
             }
         })
     }
+}
+
+interface UpdateDocServiceInput {
+	name: string
 }
