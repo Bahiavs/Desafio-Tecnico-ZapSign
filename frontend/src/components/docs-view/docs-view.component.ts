@@ -34,7 +34,7 @@ export class DocsViewComponent {
         this._dialog.open(EditSignerComponent, {data: signer});
     }
     
-    deleteDoc(docID: any) {
-        this._deleteDocService.execute(docID);
+    deleteDoc(id: number) {
+        this._deleteDocService.execute(id);
     }
 }

@@ -9,7 +9,7 @@ export class CreateDocService {
     private readonly _getDocsService = inject(GetDocsService);
 
     execute(documentData: CreateDocServiceInput) {
-        const subscription = this._http.post<any>(this._apiUrl, JSON.stringify(documentData)).subscribe({
+        const subscription = this._http.post(this._apiUrl, JSON.stringify(documentData)).subscribe({
             next: () => alert(`Sucesso ao criar documento ${documentData.name}`),
             error: () => alert(`Erro ao criar documento ${documentData.name}`),
             complete: () => {
