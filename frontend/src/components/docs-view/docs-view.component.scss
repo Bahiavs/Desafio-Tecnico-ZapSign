@@ -1,20 +1,80 @@
 :host {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(19rem, 100%), 1fr));
+  align-items: start;
   gap: 1rem;
   padding: 1rem;
 }
 
-pre {
-  white-space: pre-wrap;
+.doc {
+  position: relative;
+  background-color: black;
+  display: flex;
+  gap: 0 1.5rem;
+  flex-wrap: wrap;
+  padding: 1rem;
+  border-radius: .5rem;
+}
+
+.header {
+  flex-basis: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0 .5rem;
+}
+
+.field {
+  margin-top: .8em;
+
+  :last-child {
+    font-weight: bold;
+  }
+}
+
+h2 {
   flex-basis: 100%;
 }
 
-div {
-  background-color: black;
+.signer {
   display: flex;
+  gap: 0 1.5rem;
   flex-wrap: wrap;
-  gap: .5rem;
-  padding: .5rem;
-  border-radius: .5rem;
+  position: relative;
+  flex-grow: 1;
+}
+
+hr {
+  flex-basis: 100%;
+  margin: 0;
+  margin-top: 1rem;
+  border-style: dashed;
+}
+
+#edit-signer-btn {
+  position: absolute;
+  top: .5rem;
+  right: 0;
+}
+
+#edit-signer-btn,
+#delete-doc-btn,
+#edit-doc-btn {
+  padding: 0;
+  border: none;
+  opacity: .5;
+  background-color: transparent;
+  
+  &:hover {
+    opacity: 1;
+  }
+
+  &:active {
+    scale: .9;
+  }
+}
+
+#doc-btns {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
 }

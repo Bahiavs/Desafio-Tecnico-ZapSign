@@ -7,21 +7,55 @@
     @case ('loading') {Carregando}
     @default {
         @for (doc of docs; track $index) {
-            <div>
-                <pre>{{ doc | json }}</pre>
-                <button (click)="deleteDoc(doc.documentID)" [disabled]="loadingDocDeletions?.has(doc.documentID)">
-                    🗑️ Deletar
-                </button>
-                @for (signer of doc.signers; track signer.id) {
-                    <button (click)="editSigner(signer.id, signer.name)" 
-                            [disabled]="loadingSignerUpdates?.has(signer.id) || loadingDocDeletions?.has(doc.documentID)">
-                        ✏️ Editar Signatário {{ signer.id }}
+            <div class="doc">
+                <div class="header">
+                    <h1>{{doc.name}}</h1>
+                    <button (click)="editDoc(doc.documentID, doc.name)" 
+                            [disabled]="loadingDocUpdates?.has(doc.documentID) || loadingDocDeletions?.has(doc.documentID)"
+                            id="edit-doc-btn">
+                        ✏️
                     </button>
+                    <button (click)="deleteDoc(doc.documentID)" 
+                            [disabled]="loadingDocDeletions?.has(doc.documentID)"
+                            id="delete-doc-btn">
+                        ❌
+                    </button>
+                </div>
+                <div class="field">
+                    <div>Status</div>
+                    <div>{{doc.status}}</div>
+                </div>
+                <div class="field">
+                    <div>Criado por</div>
+                    <div>{{doc.createdBy}}</div>
+                </div>
+                <div class="field">
+                    <div>Criado em</div>
+                    <div>{{doc.createdAt}}</div>
+                </div>
+                <h2 class="field">Signatários</h2>
+                @for (signer of doc.signers; track $index; let i = $index) {
+                    <div class="signer">
+                        <div class="field">
+                            <div>Nome</div>
+                            <div>{{signer.name}}</div>
+                        </div>
+                        <div class="field">
+                            <div>Email</div>
+                            <div>{{signer.email}}</div>
+                        </div>
+                        <div class="field">
+                            <div>Status</div>
+                            <div>{{signer.status}}</div>
+                        </div>
+                        <button (click)="editSigner(signer.id, signer.name)" 
+                                [disabled]="loadingSignerUpdates?.has(signer.id) || loadingDocDeletions?.has(doc.documentID)"
+                                id="edit-signer-btn">
+                            ✏️
+                        </button>
+                    </div>
+                    @if (i < doc.signers.length - 1) {<hr>}
                 }
-                <button (click)="editDoc(doc.documentID, doc.name)" 
-                        [disabled]="loadingDocUpdates?.has(doc.documentID) || loadingDocDeletions?.has(doc.documentID)">
-                    ✏️ Editar Documento
-                </button>
             </div>
         } @empty {
             Sem documentos
