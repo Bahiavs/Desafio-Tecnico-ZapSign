@@ -1,6 +1,10 @@
 :host {
-  display: block;
+  display: grid;
   padding: 1rem;
   border-radius: .5rem;
   background-color: black;
+}
+
+button, input {
+  margin-top: 0.8em;
 }
