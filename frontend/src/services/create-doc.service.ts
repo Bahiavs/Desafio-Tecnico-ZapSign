@@ -1,10 +1,11 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {GetDocsService} from "./get-docs.service";
+import { environment } from '../environments/environment';
 
 @Injectable({providedIn: 'root'})
 export class CreateDocService {
-    private readonly _apiUrl = 'http://localhost:8000/documentapp/create';
+    private readonly _apiUrl = environment.apiUrl + '/create';
     private readonly _http = inject(HttpClient);
     private readonly _getDocsService = inject(GetDocsService);
 

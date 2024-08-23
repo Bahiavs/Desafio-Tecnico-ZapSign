@@ -2,10 +2,11 @@ import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {GetDocsService} from "./get-docs.service";
 import {BehaviorSubject} from 'rxjs';
+import { environment } from '../environments/environment';
 
 @Injectable({providedIn: 'root'})
 export class UpdateSignerService {
-    private readonly _apiUrl = 'http://localhost:8000/documentapp/update-signer';
+    private readonly _apiUrl = environment.apiUrl + '/update-signer';
     private readonly _http = inject(HttpClient);
     private readonly _getDocsService = inject(GetDocsService);
     private readonly _loadingSignerUpdates$ = new BehaviorSubject<Set<number>>(new Set())

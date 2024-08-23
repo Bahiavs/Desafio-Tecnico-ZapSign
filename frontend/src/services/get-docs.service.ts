@@ -1,10 +1,11 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
+import { environment } from '../environments/environment';
 
 @Injectable({providedIn: 'root'})
 export class GetDocsService {
-    private readonly _apiUrl = 'http://localhost:8000/documentapp/read'
+    private readonly _apiUrl = environment.apiUrl + '/read'
     private readonly _http = inject(HttpClient)
     private readonly _docs$ = new BehaviorSubject<GetDocsState>([])
     readonly docs$ = this._docs$.asObservable()
@@ -22,7 +23,7 @@ export class GetDocsService {
 
 type GetDocsState = GetDocsServiceOutput | 'loading' | 'error'
 type GetDocsServiceOutput = {
-    id: number,
+    documentID: number,
     name: string,
     status: string,
     createdAt: string,
