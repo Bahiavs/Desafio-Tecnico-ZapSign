@@ -1,0 +1,49 @@
+:host {
+    display: block;
+    padding: 1rem;
+    background-color: black;
+}
+
+form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+
+    & > div {
+        flex-basis: 100%;
+    }
+}
+
+input {
+    flex-grow: 1;
+}
+
+.signer {
+    display: flex;
+    gap: .5rem;
+    padding: .5rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: .5rem;
+    align-items: center;
+
+    div {
+        display: flex;
+        flex-wrap: wrap;
+        gap: .5rem;
+    }
+}
+
+#remove-signer {
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background-color: transparent;
+}
+
+button {
+    flex-grow: 1;
+}
+
+#submit {
+    flex-basis: 100%;
+}

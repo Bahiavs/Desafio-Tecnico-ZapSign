@@ -7,7 +7,8 @@ import {CreateDocService} from "../../services/create-doc.service";
     selector: 'create-doc-form',
     standalone: true,
     imports: [ReactiveFormsModule, NgForOf],
-    templateUrl: './create-doc-form.component.html'
+    templateUrl: './create-doc-form.component.html',
+    styleUrl: './create-doc-form.component.scss'
 })
 export class CreateDocFormComponent {
     private readonly _createDocService = inject(CreateDocService);

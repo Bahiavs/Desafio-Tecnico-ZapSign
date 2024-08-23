@@ -9,9 +9,9 @@ import {DocsViewComponent} from "../components/docs-view/docs-view.component";
     imports: [RouterOutlet, CreateDocFormComponent, DocsViewComponent],
     template: `
         <create-doc-form/>
-        <hr>
         <docs-view/>
     `,
+    styleUrl: './app.component.scss'
 })
 export class AppComponent {
 }

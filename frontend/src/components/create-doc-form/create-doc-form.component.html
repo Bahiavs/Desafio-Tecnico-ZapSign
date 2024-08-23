@@ -1,18 +1,14 @@
 <form [formGroup]="documentForm" (ngSubmit)="onSubmit()">
-    <label for="name">Nome do documento</label>
-    <input id="name" formControlName="name"/>
-    <label for="url">URL do PDF</label>
-    <input id="url" formControlName="url"/>
-    <div formArrayName="signers">
-        <div *ngFor="let signer of signers.controls; let i = index" [formGroupName]="i">
-            <label for="signerName">Nome do signatário</label>
-            <input id="signerName" formControlName="name"/>
-            <label for="signerEmail">Email do signatário</label>
-            <input id="signerEmail" formControlName="email"/>
-            <button type="button" (click)="removeSigner(i)">Remover signatário</button>
+    <input id="name" formControlName="name" placeholder="Nome do documento" />
+    <input id="url" formControlName="url" placeholder="URL do PDF" />
+    <div *ngFor="let signer of signers.controls; let i = index" formArrayName="signers" class="signer">
+        <div [formGroupName]="i">
+            <input id="signerName" formControlName="name" placeholder="Nome do signatário" />
+            <input id="signerEmail" formControlName="email" placeholder="Email do signatário" />
         </div>
+        @if (signers.controls.length > 1) {<button type="button" (click)="removeSigner(i)" id="remove-signer">❌</button>}
     </div>
-    <button type="button" (click)="autoFill()">Auto Preencher</button>
-    <button type="button" (click)="addSigner()">Adicionar Signatário</button>
-    <button type="submit">Enviar</button>
+    <button type="button" (click)="autoFill()">📝 Auto Preencher</button>
+    <button type="button" (click)="addSigner()">➕ Adicionar Signatário</button>
+    <button type="submit" id="submit">✈️ Enviar</button>
 </form>
