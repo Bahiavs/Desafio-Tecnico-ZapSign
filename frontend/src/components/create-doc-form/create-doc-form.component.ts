@@ -44,10 +44,7 @@ export class CreateDocFormComponent {
         nameFormCtrl.setValue('Documento A');
         const urlFormCtrl = this.documentForm.get('url') as FormControl;
         urlFormCtrl.setValue('https://zapsign.s3.amazonaws.com/2022/1/pdf/63d19807-cbfa-4b51-8571-215ad0f4eb98/ca42e7be-c932-482c-b70b-92ad7aea04be.pdf');
-        const signersFormArray = this.documentForm.get('signers') as FormArray;
-        for (let i = 0; i < signersFormArray.length; i++) {
-            this.removeSigner(i)
-        }
+        this.signers.clear()
         const signerA = this._fb.group({
             name: ['Signatário A', Validators.required],
             email: ['signatarioA@email.com', [Validators.required, Validators.email]]
