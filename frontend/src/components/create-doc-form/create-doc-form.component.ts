@@ -1,7 +1,7 @@
 import {Component, inject} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {NgForOf} from "@angular/common";
-import {CreateDocService} from "../../services/create-doc.service";
+import {CreateDocService, CreateDocServiceInput} from "../../services/create-doc.service";
 
 @Component({
     selector: 'create-doc-form',
@@ -37,7 +37,11 @@ export class CreateDocFormComponent {
     }
 
     onSubmit() {
-        if (this.documentForm.valid) this._createDocService.execute(this.documentForm.value)
+        if (this.documentForm.invalid) return 
+        const input: CreateDocServiceInput = {
+            ...this.documentForm.value
+        }
+        this._createDocService.execute(input)
     }
 
     autoFill() {
