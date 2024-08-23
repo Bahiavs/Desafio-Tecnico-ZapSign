@@ -10,6 +10,8 @@ export class CreateDocService {
 
     execute(documentData: any) {
         const subscription = this._http.post<any>(this._apiUrl, JSON.stringify(documentData)).subscribe({
+            next: () => alert(`Sucesso ao criar documento ${documentData.name}`),
+            error: () => alert(`Erro ao criar documento ${documentData.name}`),
             complete: () => {
                 this._getDocsService.execute()
                 subscription.unsubscribe()
