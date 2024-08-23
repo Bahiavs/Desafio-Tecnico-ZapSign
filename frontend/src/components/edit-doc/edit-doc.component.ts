@@ -8,18 +8,17 @@ import {UpdateDocService} from "../../services/update-doc.service";
     templateUrl: './edit-doc.component.html',
     styleUrl: './edit-doc.component.scss',
     standalone: true,
-    imports: [
-        ReactiveFormsModule
-    ]
+    imports: [ReactiveFormsModule]
 })
 export class EditDocComponent {
-    readonly data = inject(DIALOG_DATA);
-    readonly dialogRef = inject(DialogRef);
+    private readonly _dialogRef = inject(DialogRef);
     private readonly _updateDocService = inject(UpdateDocService);
-    readonly nameFormCtrl = new FormControl(this.data.name, Validators.required);
+    private readonly _data = inject(DIALOG_DATA);
+    readonly nameFormCtrl = new FormControl(this._data.name, Validators.required);
 
     save() {
         if (this.nameFormCtrl.invalid) return
-        this._updateDocService.execute(this.data['documentID'], {'name': this.nameFormCtrl.value})
+        this._updateDocService.execute(this._data['documentID'], {'name': this.nameFormCtrl.value})
+        this._dialogRef.close()
     }
 }
