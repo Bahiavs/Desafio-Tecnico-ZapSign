@@ -4,7 +4,7 @@ import {AsyncPipe, JsonPipe} from "@angular/common";
 import {DeleteDocService} from "../../services/delete-doc.service";
 import {Dialog, DialogModule} from "@angular/cdk/dialog";
 import {EditDocComponent, EditDocComponentInput} from "../edit-doc/edit-doc.component";
-import {EditSignerComponent} from "../edit-signer/edit-signer.component";
+import {EditSignerComponent, EditSignerComponentInput} from "../edit-signer/edit-signer.component";
 import {UpdateDocService} from '../../services/update-doc.service';
 import { UpdateSignerService } from '../../services/update-signer.service';
 
@@ -27,11 +27,11 @@ export class DocsViewComponent {
     readonly docs$ = this._getDocsService.execute();
     
     editDoc(id: number, name: string) {
-        this._dialog.open<any, EditDocComponentInput>(EditDocComponent, {data: {id,name}});
+        this._dialog.open<any, EditDocComponentInput>(EditDocComponent, {data: {id, name}});
     }
     
-    editSigner(signer: any) {
-        this._dialog.open(EditSignerComponent, {data: signer});
+    editSigner(id: number, name: string) {
+        this._dialog.open<any, EditSignerComponentInput>(EditSignerComponent, {data: {id, name}});
     }
     
     deleteDoc(id: number) {

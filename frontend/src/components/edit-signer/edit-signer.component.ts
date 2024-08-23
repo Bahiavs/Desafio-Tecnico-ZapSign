@@ -11,14 +11,19 @@ import {UpdateSignerService} from "../../services/update-signer.service";
     imports: [ReactiveFormsModule]
 })
 export class EditSignerComponent {
-    private readonly _data = inject(DIALOG_DATA);
     private readonly _dialogRef = inject(DialogRef);
     private readonly _updateSignerService = inject(UpdateSignerService);
+    private readonly _data = inject<EditSignerComponentInput>(DIALOG_DATA);
     readonly nameFormCtrl = new FormControl(this._data.name, Validators.required);
 
     save() {
         if (this.nameFormCtrl.invalid) return
-        this._updateSignerService.execute(this._data['id'], {'name': this.nameFormCtrl.value})
+        this._updateSignerService.execute(this._data.id, {name: this.nameFormCtrl.value as string})
         this._dialogRef.close()
     }
+}
+
+export interface EditSignerComponentInput {
+    id: number, 
+    name: string
 }
