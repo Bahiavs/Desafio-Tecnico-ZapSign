@@ -1,9 +1,9 @@
 :host {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(19rem, 100%), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(26.25rem, 100%), 1fr));
   align-items: start;
   gap: 1rem;
-  padding: 1rem;
+  padding: 2rem;
 }
 
 .doc {
@@ -52,8 +52,11 @@ hr {
 
 #edit-signer-btn {
   position: absolute;
-  top: .5rem;
+  top: 0;
   right: 0;
+  translate: 50% -50%;
+  height: 2em;
+  width: 2em;
 }
 
 #edit-signer-btn,
@@ -61,8 +64,9 @@ hr {
 #edit-doc-btn {
   padding: 0;
   border: none;
+  min-width: auto;
   opacity: .5;
-  background-color: transparent;
+  background-color: #0f1111;
   
   &:hover {
     opacity: 1;

@@ -17,10 +17,6 @@ body, pre, h1, h2 {
   margin: 0;
 }
 
-h1, h2 {
-  color: white
-}
-
 html, body {
   height: 100%;
 }
@@ -33,7 +29,7 @@ button {
   border-radius: 9999rem;
   border: none;
   background-color: transparent;
-  color: #00dddd;
+  color: #bec9c8;;
   padding: 0 0.85714em;
   height: 2.857142em;
 
@@ -62,7 +58,7 @@ input {
   }
 
   &:focus {
-    border-color: #00dddd;
+    border-color: #acdada;
   }
 
   &::placeholder {
