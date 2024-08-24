@@ -2,6 +2,15 @@
     display: grid;
     grid-template-columns: auto 1fr;
     height: 100dvh;
+
+    & > * {
+        filter: drop-shadow(2px 4px 6px black);
+    }
+}
+
+create-doc-form {
+    border-bottom-right-radius: 1.5rem;
+    border-top-right-radius: 1.5rem;
 }
 
 docs-view {
