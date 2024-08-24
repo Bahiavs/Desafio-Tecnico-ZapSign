@@ -26,13 +26,15 @@ html, body {
 }
 
 button {
+  font-size: 0.875rem;
+  min-width: 4.571428em;
   cursor: pointer;
-  border-radius: 100rem;
+  border-radius: 9999rem;
   border: none;
   background-color: transparent;
   color: #00dddd;
-  padding: 0 1.5rem;
-  height: 2.5rem;
+  padding: 0 0.85714em;
+  height: 2.857142em;
 
   &:hover {
     background-color: #172c2c;
