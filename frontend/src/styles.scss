@@ -26,6 +26,7 @@ html, body {
 }
 
 button {
+  display: block;
   font-size: 0.875rem;
   min-width: 4.571428em;
   cursor: pointer;
@@ -46,6 +47,7 @@ button {
 }
 
 input {
+  display: block;
   border: none;
   outline: none;
   font-size: 1rem;
