@@ -5,12 +5,6 @@ from dotenv import load_dotenv
 ENVIRONMENT = os.environ.get('ENVIRONMENT', 'development')
 if ENVIRONMENT == 'development': load_dotenv()
 ZAPSIGN_API_URL = os.environ.get('ZAPSIGN_API_URL')
-DATABASE_NAME = os.environ.get('DATABASE_NAME')
-DATABASE_USER = os.environ.get('DATABASE_USER')
-DATABASE_PASSWORD = os.environ.get('DATABASE_PASSWORD')
-DATABASE_HOST = os.environ.get('DATABASE_HOST')
-DATABASE_PORT = os.environ.get('DATABASE_PORT')
-FRONTEND_URL = os.environ.get('FRONTEND_URL')
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-0j7t$oa6=5x*1_lm1kzu0y5qu5#!z=z8w4+o=b_p!2dvnhdpx5'
@@ -36,7 +30,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
 ]
-CORS_ALLOWED_ORIGINS = [FRONTEND_URL]
+CORS_ALLOWED_ORIGINS = [os.environ.get('FRONTEND_URL')]
 ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
@@ -58,11 +52,11 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': DATABASE_NAME,
-        'USER': DATABASE_USER,
-        'PASSWORD': DATABASE_PASSWORD,
-        'HOST': DATABASE_HOST,
-        'PORT': DATABASE_PORT,
+        'NAME': os.environ.get('DATABASE_NAME'),
+        'USER': os.environ.get('DATABASE_USER'),
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
+        'HOST': os.environ.get('DATABASE_HOST'),
+        'PORT': os.environ.get('DATABASE_PORT'),
     }
 }
 AUTH_PASSWORD_VALIDATORS = [
