@@ -3,6 +3,7 @@ from django.test import TestCase
 from documentapp.external_models.doc_api_fake import DocAPIFake
 from documentapp.models import Company, Document, Signer
 from documentapp.usecases.create_document import CreateDocument
+from documentapp.usecases.get_docs import GetDocs
 
 
 class CreateDocumentTestCase(TestCase):
@@ -10,6 +11,7 @@ class CreateDocumentTestCase(TestCase):
         Company.objects.create(name='Company Name', api_token="''")
         doc_api = DocAPIFake()
         self.create_document = CreateDocument(doc_api)
+        self.get_docs = GetDocs()
 
     def test_create_doc(self):
         input_data = {
@@ -27,7 +29,8 @@ class CreateDocumentTestCase(TestCase):
         self.assertEqual(doc.name, "Documento A")
         self.assertEqual(signer_a.email, 'signatarioA@email.com')
         self.assertEqual(signer_b.email, 'signatarioB@email.com')
-        self.assertEqual(response, True)
+        docs = self.get_docs.execute()
+        self.assertEqual(response, docs)
 
     def test_doc_missing_field_name(self):
         input_data = {

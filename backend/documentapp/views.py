@@ -20,8 +20,8 @@ def create_document(request):
         doc_api = DocAPIZapSign(settings.ZAPSIGN_API_URL)
         create_doc = CreateDocument(doc_api)
         input_data = json.loads(request.body)
-        create_doc.execute(input_data)
-        return JsonResponse({'success': 'document created'}, status=200)
+        docs = create_doc.execute(input_data)
+        return JsonResponse(docs, safe=False, status=200)
     except Exception as e:
         error_msg = str(e).strip("'\"")
         return JsonResponse({'error': error_msg}, status=400)

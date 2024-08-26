@@ -1,3 +1,4 @@
+from .get_docs import GetDocs
 from ..models import Document, Signer, Company
 from ..external_models.doc_api import DocAPI
 
@@ -5,6 +6,7 @@ from ..external_models.doc_api import DocAPI
 class CreateDocument:
     def __init__(self, doc_api: DocAPI):
         self.doc_api = doc_api
+        self.get_docs = GetDocs()
 
     def execute(self, input_data):
         required_doc_fields = ['name', 'url', 'signers']
@@ -50,4 +52,4 @@ class CreateDocument:
             signer.token = signer_data.token
             signer.status = signer_data.status
             signer.save()
-        return True
+        return self.get_docs.execute()
