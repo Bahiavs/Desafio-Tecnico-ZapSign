@@ -18,7 +18,7 @@ export class DeleteDocService {
         const subscriber = this._http.delete(`${this._apiUrl}/${id}`).subscribe({
             next: () => {
                 this._getDocsService.execute();
-                alert(`Sucesso ao deletar documento`)
+                console.log(`Sucesso ao deletar documento`)
             },
             error: () => alert(`Erro ao deletar documento ${id}`),
             complete: () => {

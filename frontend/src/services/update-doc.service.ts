@@ -19,7 +19,7 @@ export class UpdateDocService {
         const subscription = this._http.patch(url, body).subscribe({
             next: () => {
                 this._getDocsService.execute();
-                alert(`Sucesso ao editar documento`)
+                console.log(`Sucesso ao editar documento`)
             },
             error: () => alert(`Erro ao editar documento ${id}`),
             complete: () => {

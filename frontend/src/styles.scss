@@ -33,12 +33,16 @@ button {
   padding: 0 0.85714em;
   height: 2.857142em;
 
-  &:hover {
-    background-color: #172c2c;
-  }
+  &:hover {background-color: #172c2c;}
 
-  &:active {
-    background-color: #134949;
+  &:active {background-color: #134949;}
+
+  &[disabled] {
+    filter: grayscale(1);
+
+    &:hover {background-color: transparent}
+  
+    &:active {background-color: transparent}
   }
 }
 

@@ -19,7 +19,7 @@ export class UpdateSignerService {
         const subscription = this._http.patch(url, body).subscribe({
             next: () => {
                 this._getDocsService.execute();
-                alert(`Sucesso ao editar signatário`)
+                console.log(`Sucesso ao editar signatário`)
             },
             error: () => alert(`Erro ao editar signatário ${id}`),
             complete: () => {

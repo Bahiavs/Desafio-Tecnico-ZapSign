@@ -15,7 +15,7 @@ export class CreateDocService {
         const subscription = this._http.post<GetDocsAPIResponse>(this._apiUrl, JSON.stringify(documentData)).subscribe({
             next: (response) => {
                 this._onSuccessfulResponse$.next(response)
-                alert(`Sucesso ao criar documento ${documentData.name}`)
+                console.log(`Sucesso ao criar documento ${documentData.name}`)
             },
             error: () => alert(`Erro ao criar documento ${documentData.name}`),
             complete: () => subscription.unsubscribe()
