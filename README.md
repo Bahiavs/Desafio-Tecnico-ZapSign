@@ -10,3 +10,4 @@
 - Rode o projeto com `npm start`
 ### OBS
 - Não esqueça de ter o Postgres rodando com os mesmos parâmetross setados no `.env`
+- Não esqueça de salvar a Company inicial no DB
