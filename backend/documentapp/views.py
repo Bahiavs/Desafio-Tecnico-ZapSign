@@ -1,9 +1,7 @@
 import json
-from django.http import JsonResponse, HttpResponseNotFound, HttpResponseBadRequest
+from django.http import JsonResponse, HttpResponseNotFound
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
-
-from backend import settings
 from .external_models.doc_api_zapsign import DocAPIZapSign
 from .models import Document, Signer
 from .usecases.create_document import CreateDocument
@@ -17,7 +15,7 @@ from .usecases.update_signer import UpdateSigner
 @require_http_methods(["POST"])
 def create_document(request):
     try:
-        doc_api = DocAPIZapSign(settings.ZAPSIGN_API_URL)
+        doc_api = DocAPIZapSign()
         create_doc = CreateDocument(doc_api)
         input_data = json.loads(request.body)
         docs = create_doc.execute(input_data)
