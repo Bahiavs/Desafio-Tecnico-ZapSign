@@ -4,6 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from .external_models.doc_api_zapsign import DocAPIZapSign
 from .models import Document, Signer
+from .repository.company_repository import CompanyRepositoryDatabase
 from .usecases.create_document import CreateDocument
 from .usecases.delete_doc import DeleteDoc
 from .usecases.get_docs import GetDocs
@@ -16,7 +17,8 @@ from .usecases.update_signer import UpdateSigner
 def create_document(request):
     try:
         doc_api = DocAPIZapSign()
-        create_doc = CreateDocument(doc_api)
+        company_repository = CompanyRepositoryDatabase()
+        create_doc = CreateDocument(doc_api, company_repository)
         input_data = json.loads(request.body)
         docs = create_doc.execute(input_data)
         return JsonResponse(docs, safe=False, status=200)

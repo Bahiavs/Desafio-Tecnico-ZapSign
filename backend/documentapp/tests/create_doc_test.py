@@ -2,6 +2,7 @@ from django.test import TestCase
 
 from documentapp.external_models.doc_api_fake import DocAPIFake
 from documentapp.models import Company, Document, Signer
+from documentapp.repository.company_repository import CompanyRepositoryDatabase
 from documentapp.usecases.create_document import CreateDocument
 from documentapp.usecases.get_docs import GetDocs
 
@@ -10,7 +11,8 @@ class CreateDocumentTestCase(TestCase):
     def setUp(self):
         Company.objects.create(name='Company Name', api_token="''")
         doc_api = DocAPIFake()
-        self.create_document = CreateDocument(doc_api)
+        company_repository = CompanyRepositoryDatabase()
+        self.create_document = CreateDocument(doc_api, company_repository)
         self.get_docs = GetDocs()
 
     def test_create_doc(self):

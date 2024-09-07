@@ -1,12 +1,14 @@
 from .get_docs import GetDocs
 from ..models import Document, Signer, Company
 from ..external_models.doc_api import DocAPI
+from ..repository.company_repository import CompanyRepository
 
 
 class CreateDocument:
-    def __init__(self, doc_api: DocAPI):
+    def __init__(self, doc_api: DocAPI, company_repository: CompanyRepository):
         self.doc_api = doc_api
         self.get_docs = GetDocs()
+        self.company_repository = company_repository
 
     def execute(self, input_data):
         required_doc_fields = ['name', 'url', 'signers']
@@ -23,7 +25,7 @@ class CreateDocument:
         for signer in input_data['signers']:
             if not isinstance(signer['name'], str): raise TypeError('name must be a string')
             if not isinstance(signer['email'], str): raise TypeError('name must be a string')
-        company = Company.objects.first()
+        company = self.company_repository.get()
         document = Document.objects.create(companyID=company, name=input_data['name'], status='initial')
         signers_data = input_data['signers']
         signers = []
